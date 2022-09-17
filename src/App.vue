@@ -1,31 +1,46 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+import Counter from './components/Counter.vue';
+import Welcome from './components/Welcome.vue';
+
+const tab = ref('Counter');
+
+const tabs = {
+  Counter,
+  Welcome,
+}
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="container">
+      <button :class="{active: tab === 'Counter'}" @click="tab = 'Counter'" class="button">Counter</button>
+      <button :class="{active: tab === 'Welcome'}" @click="tab = 'Welcome'" class="button">Welcome</button>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <hr>
+  <br>
+  <keep-alive>
+    <component :is="tabs[tab]" msg="Vite + Vue" />
+  </keep-alive>
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<style>
+    .container {
+        display: grid;
+        gap: 4px;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+        justify-items: center;
+    }
+
+    .button {
+        border: 1px solid #ccc;
+        outline: none;
+    }
+
+    .active {
+        background: #444;
+        color: #fff;
+    }
 </style>
+
